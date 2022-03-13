@@ -1,1 +1,7 @@
-/Training/Alex/
+/Training/*
+/*.ipynb
+*.[jJ][pP]*[gG]
+/*.log
+/.ipynb_checkpoints/
+/known_images.txt
+/.idea/*

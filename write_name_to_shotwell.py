@@ -8,16 +8,17 @@ import datetime
 import traceback
 
 
-def write_name_to_shotwell(img_path, match, shotwell_db):
-    success = False
+def write_name_to_shotwell(imagePath, match, shotwell_db):
     try:
+        success = False
         conn = sqlite3.connect(shotwell_db)
+        logging.info('writing %s for image %s to shotwells database', match, imagePath)
         cur = conn.cursor()
-        cur.execute('SELECT id FROM PhotoTable WHERE filename = ?', (img_path,))
+        cur.execute("SELECT id FROM PhotoTable WHERE filename = ?", (imagePath,))
         # record[0] holds id in decimal
         record = cur.fetchone()
         if record is None:
-            raise UnboundLocalError('Bild %s in shotwell nicht gefunden', img_path)
+            raise UnboundLocalError("Bild %s in shotwell nicht gefunden", imagePath)
 
         # construct thumb representation to look like thumb000.000.000.000.11a9,
         # aka thumb followed by 16 "digits" in hex
@@ -25,7 +26,7 @@ def write_name_to_shotwell(img_path, match, shotwell_db):
         zeroes = '0'*(16 - len(img_hex))
         thumb = zeroes.join(['thumb', img_hex])
 
-        cur.execute('SELECT photo_id_list FROM TagTable WHERE name = ?', (match,))
+        cur.execute("SELECT photo_id_list FROM TagTable WHERE name = ?", (match,))
         thumb_list = cur.fetchone()
 
         # no tag for match exist
@@ -35,9 +36,9 @@ def write_name_to_shotwell(img_path, match, shotwell_db):
             cur.execute(sqlite_insert_query, insert_tuple)
             conn.commit()
             success = True
-            logging.WARNING('Record inserted successfully into SqliteDb_developers table', cur.rowcount)
+            logging.warning("Record inserted successfully into SqliteDb_developers table", cur.rowcount)
 
-        # tags for match exist but do not point to img_path
+        # tags for match exist but do not point to imagePath
         # we need first row of thumblist, it holds the value
         elif -1 == thumb_list[0].find(thumb):
             upd = thumb_list[0] + thumb + ','
@@ -46,26 +47,27 @@ def write_name_to_shotwell(img_path, match, shotwell_db):
             cur.execute(sql_update_query, data)
             conn.commit()
             success = True
-            logging.WARNING('Record for %s Updated successfully with file %s!', match, thumb)
+            logging.warning("Record for %s Updated successfully with file %s !", match, thumb)
 
-        # tags for match exist and point to target img_path
+        # tags for match exist and point to target imagePath
         else:
-            logging.INFO('Record for %s already points to file %s!', match, thumb)
+            logging.info("Record for %s already points to file %s !", match, thumb)
             success = True
-            pass
+            # pass
 
     except UnboundLocalError as e:
-        logging.ERROR(e.message)
+        logging.error(e.message)
         pass
 
     except sqlite3.Error as error:
-        logging.ERROR('Failed to read image id from sqlite table', error.args[0])
-        logging.DEBUG('SQLite error: %s' % (' '.join(error.args)))
-        logging.DEBUG('Exception class is: ', error.__class__)
+        logging.error("Failed to read image id from sqlite table", error.args[0])
+        logging.debug("SQLite error: %s" % (' '.join(error.args)))
+        logging.debug("Exception class is: ", error.__class__)
         exc_type, exc_value, exc_tb = sys.exc_info()
-        logging.DEBUG('Traceback: ', traceback.format_exception(exc_type, exc_value, exc_tb))
+        logging.debug("Traceback: ", traceback.format_exception(exc_type, exc_value, exc_tb))
 
     finally:
         if conn:
             conn.close()
-        return success
+
+    return success
