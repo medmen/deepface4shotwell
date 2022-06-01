@@ -1,4 +1,5 @@
 /Training/*
+/Testing/*
 /*.ipynb
 *.[jJ][pP]*[gG]
 /*.log
