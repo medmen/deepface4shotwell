@@ -1,4 +1,6 @@
-# myapp.py
+#!/usr/bin/env python
+import config as cfg
+
 import logging
 from deepface import DeepFace
 from retinaface import RetinaFace
@@ -10,36 +12,16 @@ import os
 import write_name_to_shotwell
 import write_name_to_iptc
 
-
 def main():
     ### config section
-    # TODO: add config parsing module
-    # lets keep a log file
-    logfile = 'myapp.log'
-
-    # the directory to search for faces
-    images_dir = "/home/galak/Pictures/2021/08"
-
-    # path to the shotwell database
-    shotwell_db = '/home/galak/.local/share/shotwell/data/photo.db'
-
-    # a directory of "known faces" sorted by name
-    # each name needs at least one image.
-    # example:
-    # # #
-    # alice
-    #       - alice1.jpg
-    #       - alice2.jpg
-    # bob
-    #       - bob1.jpg
-    # charly
-    #       - charly1.jpg
-
-    known_faces = "/opt/OpenCV/deepface/Training/"
-    testing_faces = "/opt/OpenCV/deepface/Testing/"
-
-    # a text file to keep track of images we have covered already
-    known_images = 'known_images.txt'
+    logfile = cfg.logfile
+    log_level = cfg.log_level
+    images_dir = cfg.images_dir
+    shotwell_db = cfg.shotwell_db
+    known_faces = cfg.known_faces
+    enable_testing = cfg.enable_testing
+    testing_faces = cfg.testing_faces
+    known_images = cfg.known_images
     ### end config section
 
     # start logging
@@ -105,8 +87,7 @@ def add_to_testing(testing_faces, face_img, match):
     img_cnt = len([name for name in os.listdir(path) if os.path.isfile(os.path.join(path, name))]) + 1
     img_name = f'{match}{img_cnt}.jpg'
     target_path = os.path.join(path, img_name)
-    cv2.imwrite(target_path,face_img)
-
+    cv2.imwrite(target_path,cv2.cvtColor(face_img, cv2.COLOR_RGB2BGR))
 
 def add_known_image(known_images, imagePath):
     # add to known images
