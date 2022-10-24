@@ -1,0 +1,7 @@
+config
+pandas
+imutils
+opencv-python
+py3exiv2
+retina-face
+deepface

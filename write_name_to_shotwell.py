@@ -56,7 +56,7 @@ def write_name_to_shotwell(imagePath, match, shotwell_db):
             # pass
 
     except UnboundLocalError as e:
-        logging.error(e.message)
+        logging.error(e)
         pass
 
     except sqlite3.Error as error:
