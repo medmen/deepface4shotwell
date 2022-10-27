@@ -12,13 +12,45 @@ adapt!
 ## Download
 1. I will use /opt as a base directory, so `cd /opt`
 2. download (https://github.com/medmen/deepface4shotwell/archive/refs/heads/master.zip)
-3. unpack to /opt/deepface4shotwell
+3. unpack to /opt/deepface4shotwell `unzip master.zip`
 
-## Create virtual env
+## Create and start virtual env
+CAUTION: you may need to call python using `python3` instead of `python` 
 
+There is far more than one way to deal with virtual envs.  
+I will address pythons built in venv and virtualenvwrapper, feel free to use whatever you like :-)  
+You may name your virtual environment anything you like, i will use 'df4sw' 
+
+### virtualenvwrapper
+
+`mkvirtualenv df4sw`  
+`workon df4sw`
+
+### venv
+
+`python -m venv df4sw`  
+`source df4sw/bin/activate`
 
 ## Install Dependencies
 
+`pip install -r requirements.txt` 
+
 ## Prepare known faces
 
+within the `Training` folder  
+add a folder for every person you want to identify  
+within that folder add pictures of that person.  
+Refer to the 
+[readme_training.md](Training/readme_training.md)
+ for details. 
+
+## Point to your image directory
+
+check or edit [config.py](config.py) to point the variable 'images_dir' to the directory 
+containing your shotwell images or any subdirectory.   
+
 ## run (finally :wink: )
+
+`python main.py` will trigger the process.  
+Now its time to get some coffee..  
+This will take a lot of time, expect about 20 seconds per image (!), maybe longer if images holding multiple faces need to be scanned.
