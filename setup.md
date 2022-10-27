@@ -41,7 +41,7 @@ within the `Training` folder
 add a folder for every person you want to identify  
 within that folder add pictures of that person.  
 Refer to the 
-[readme_training.md](Training/readme_training.md)
+[readme.md](Training/readme.md)
  for details. 
 
 ## Point to your image directory
