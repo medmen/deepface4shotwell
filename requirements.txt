@@ -1,7 +1,7 @@
 config==0.5.1
 pandas==2.0.3
 imutils==0.5.4
-opencv-python==4.8.0.74
+opencv-python==4.8.0.76
 py3exiv2==0.12.0
 retina-face==0.0.13
 deepface==0.0.79
