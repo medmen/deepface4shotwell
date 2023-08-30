@@ -1,5 +1,5 @@
 config==0.5.1
-pandas==2.0.3
+pandas==2.1.0
 imutils==0.5.4
 opencv-python==4.8.0.76
 py3exiv2==0.12.0
