@@ -4,4 +4,4 @@ imutils==0.5.4
 opencv-python==4.9.0.80
 py3exiv2==0.12.0
 retina-face==0.0.15
-deepface==0.0.81
+deepface==0.0.89
